@@ -35,7 +35,7 @@ a{color:inherit}
 .reveal.in{opacity:1;transform:translateY(0)}
 
 /* NAV */
-.nav-outer{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;padding-top:18px;pointer-events:none}
+.nav-outer{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;justify-content:center;padding-top:18px;pointer-events:none}
 .nav{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:40px;width:min(var(--max),92%);padding:14px 22px;border-radius:100px;border:1px solid transparent;transition:all .35s ease;background:transparent}
 .nav.scrolled{background:rgba(10,10,12,.75);backdrop-filter:blur(14px);border-color:var(--line);width:min(880px,88%);box-shadow:0 10px 40px rgba(0,0,0,.4)}
 .logo{font-weight:600;font-size:15px;letter-spacing:-.02em}
@@ -148,6 +148,7 @@ footer .flinks a{font-size:13px;color:var(--muted);text-decoration:none}
 footer .flinks a:hover{color:var(--purple)}
 
 /* MOBILE MENU */
+.nav-mobile-controls{display:none;align-items:center;gap:8px}
 .nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer;flex-shrink:0}
 .nav-burger span{display:block;width:14px;height:1.5px;background:var(--ink);margin:0 auto;transition:.25s}
 .nav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
@@ -177,6 +178,7 @@ body.menu-open{overflow:hidden}
   .tl-row{grid-template-columns:1fr}
   .about-wrap{grid-template-columns:1fr}
   .navlinks{display:none}
+  .nav-mobile-controls{display:flex}
   .nav-burger{display:flex}
 }
 
@@ -211,9 +213,9 @@ body.menu-open{overflow:hidden}
 
 
 
-.gstage{position:relative}
-.gslide{display:none;margin:0}
-.gslide.active{display:block}
+.gstage{position:relative;display:grid;overflow-anchor:none;min-width:0}
+.gslide{display:grid;grid-area:1/1;margin:0;min-width:0;visibility:hidden;pointer-events:none}
+.gslide.active{visibility:visible;pointer-events:auto}
 .gslide img{width:100%;display:block;background:var(--bg2);border-radius:12px;border:1px solid var(--line)}
 .grow[data-kind="antes"] .gslide img{border-color:rgba(255,143,102,.3)}
 .grow[data-kind="depois"] .gslide img{border-color:rgba(177,138,255,.3)}
@@ -333,7 +335,13 @@ strong{font-weight:700;color:var(--ink)}
         <button class="lang-opt" type="button" data-lang="en">EN</button>
       </div>
     </div>
-    <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-mobile-controls">
+      <div class="lang-switch" aria-label="Idioma">
+        <button class="lang-opt active" type="button" data-lang="pt">PT</button>
+        <button class="lang-opt" type="button" data-lang="en">EN</button>
+      </div>
+      <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </div>
 
@@ -347,10 +355,6 @@ strong{font-weight:700;color:var(--ink)}
   </div>
   <div class="mobile-menu-footer">
     <a href="https://www.linkedin.com/in/stsangelo/" target="_blank" rel="noopener">LinkedIn ↗</a>
-    <div class="lang-switch">
-      <button class="lang-opt active" type="button" data-lang="pt">PT</button>
-      <button class="lang-opt" type="button" data-lang="en">EN</button>
-    </div>
   </div>
 </div>
 
@@ -433,14 +437,10 @@ function wireCarousel(container){
   function update(){ count.textContent = (currentIndex()+1) + ' / ' + slides().length; renderDots(); }
   function goTo(i){
     const s = slides();
-    // ancora: mantém os controles (setas) na mesma posição da tela quando a altura da imagem muda
-    const before = meta.getBoundingClientRect().top;
     s.forEach(sl => sl.classList.remove('active'));
     const idx = (i + s.length) % s.length;
     s[idx].classList.add('active');
     update();
-    const diff = meta.getBoundingClientRect().top - before;
-    if(Math.abs(diff) > 1){ window.scrollBy({top: diff, left: 0, behavior: 'instant'}); }
   }
   if(slides().length < 2){ prev.disabled = true; next.disabled = true; }
   prev.addEventListener('click', () => goTo(currentIndex()-1));

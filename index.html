@@ -33,7 +33,7 @@ a{color:inherit}
 .reveal.in{opacity:1;transform:translateY(0)}
 
 /* NAV */
-.nav-outer{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;padding-top:18px;pointer-events:none}
+.nav-outer{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;justify-content:center;padding-top:18px;pointer-events:none}
 .nav{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:40px;width:min(var(--max),92%);padding:14px 22px;border-radius:100px;border:1px solid transparent;transition:all .35s ease;background:transparent}
 .nav.scrolled{background:rgba(10,10,12,.75);backdrop-filter:blur(14px);border-color:var(--line);width:min(880px,88%);box-shadow:0 10px 40px rgba(0,0,0,.4)}
 .logo{font-weight:600;font-size:15px;letter-spacing:-.02em}
@@ -189,6 +189,7 @@ footer .flinks a{font-size:13px;color:var(--muted);text-decoration:none}
 footer .flinks a:hover{color:var(--purple)}
 
 /* MOBILE MENU */
+.nav-mobile-controls{display:none;align-items:center;gap:8px}
 .nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer;flex-shrink:0}
 .nav-burger span{display:block;width:14px;height:1.5px;background:var(--ink);margin:0 auto;transition:.25s}
 .nav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
@@ -209,7 +210,7 @@ body.menu-open{overflow:hidden}
 
 @media(max-width:860px){
   .hero-grid{grid-template-columns:1fr}
-  .hero-photo{max-width:220px;justify-self:center;aspect-ratio:4/5}
+  .hero-photo{width:100%;max-width:none;margin-left:0;justify-self:center;aspect-ratio:900/1078;border-radius:16px;border:1px solid var(--line)}
   .hero-photo img{object-position:center 42%}
   .sec-head{grid-template-columns:1fr}
   .do-row{grid-template-columns:30px 1fr;row-gap:6px}
@@ -224,6 +225,7 @@ body.menu-open{overflow:hidden}
   .contact-card{min-height:130px;gap:28px}
   .about-wrap{grid-template-columns:1fr}
   .navlinks{display:none}
+  .nav-mobile-controls{display:flex}
   .nav-burger{display:flex}
 }
 
@@ -351,7 +353,13 @@ body.menu-open{overflow:hidden}
         <button class="lang-opt" type="button" data-lang="en">EN</button>
       </div>
     </div>
-    <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-mobile-controls">
+      <div class="lang-switch" aria-label="Idioma">
+        <button class="lang-opt active" type="button" data-lang="pt">PT</button>
+        <button class="lang-opt" type="button" data-lang="en">EN</button>
+      </div>
+      <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </div>
 
@@ -365,10 +373,6 @@ body.menu-open{overflow:hidden}
   </div>
   <div class="mobile-menu-footer">
     <a href="https://www.linkedin.com/in/stsangelo/" target="_blank" rel="noopener">LinkedIn ↗</a>
-    <div class="lang-switch">
-      <button class="lang-opt active" type="button" data-lang="pt">PT</button>
-      <button class="lang-opt" type="button" data-lang="en">EN</button>
-    </div>
   </div>
 </div>
 
